@@ -20,7 +20,7 @@ using namespace OpenEngine::Scene;
 /**
  * Rigid body.
  *
- * @class RigidBody RigidBody.h Physics/RigidBody.h
+ * @class IRigidBody IRigidBody.h Physics/IRigidBody.h
  */
 class IRigidBody {
 public:

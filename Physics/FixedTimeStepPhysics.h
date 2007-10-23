@@ -27,7 +27,7 @@ using namespace std;
 /**
  * Physic module handling all added Ridget containers.
  *
- * @class Physic Physic.h Physics/Physic.h
+ * @class FixedTimeStepPhysics FixedTimeStepPhysics.h Physics/FixedTimeStepPhysics.h
  */
 class FixedTimeStepPhysics : public IModule {
 private:

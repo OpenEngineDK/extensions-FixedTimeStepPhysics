@@ -34,18 +34,29 @@ using namespace OpenEngine::Scene;
 class FaceCollector : public ISceneNodeVisitor {
     LengthConstraint* lc;
     FaceSet faces;
+    void AddFacesFromSpan(BSPNode* node) {
+        FaceSet* faceList = node->GetSpan();
+        for (FaceList::iterator itr = faceList->begin(); itr != faceList->end(); itr++ ) {
+            FacePtr face = *itr;
+            Vector<3,float>* current = face->Intersection( *lc->p1, *lc->p2 );
+            if (current != NULL)
+                faces.Add(face);
+        }
+    }
 public:
     FaceCollector() : lc(NULL) { }
+    /**
+     * Collect all faces intersecting the line defined by a length constraint.
+     *
+     * @param root Scene root to search in.
+     * @param lc Length constraint.
+     */
     FaceSet& Collect(ISceneNode* root, LengthConstraint* lc) {
         faces.Empty();
         this->lc = lc;
         root->Accept(*this);
         return faces;
     }
-    /*    void VisitGeometryNode(GeometryNode* node) {
-        faces.Add( node->GetFaceSet() );
-        node->VisitSubNodes(*this);
-        }*/
     void VisitQuadNode(QuadNode* node) {
         if (node->GetBoundingBox().Intersects( Line( *(lc->p1), *(lc->p2) ) ) )
             node->VisitSubNodes(*this);
@@ -81,15 +92,6 @@ public:
                 node->GetFront()->Accept(*this);
             if( node->GetBack() != NULL )
                 node->GetBack()->Accept(*this);
-        }
-    }
-    void AddFacesFromSpan(BSPNode* node) {
-        FaceSet* faceList = node->GetSpan();
-        for (FaceList::iterator itr = faceList->begin(); itr != faceList->end(); itr++ ) {
-            FacePtr face = *itr;
-            Vector<3,float>* current = face->Intersection( *lc->p1, *lc->p2 );
-            if (current != NULL)
-                faces.Add(face);
         }
     }
 };

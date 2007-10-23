@@ -7,8 +7,8 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _CGD_PHYSICS_RENDER_NODE_H_
-#define _CGD_PHYSICS_RENDER_NODE_H_
+#ifndef _FTS_PHYSICS_RENDER_NODE_H_
+#define _FTS_PHYSICS_RENDER_NODE_H_
 
 #include <Renderers/IRenderer.h>
 #include <Renderers/IRenderNode.h>
@@ -135,6 +135,9 @@ public:
         points.push_back(GPoint(point,color,size));
     }
 
+    /**
+     * Clear all drawing queues.
+     */
     void Clear() {
         points.clear();
         faces.clear();
@@ -142,4 +145,4 @@ public:
     }
 };
 
-#endif // _CGD_PHYSICS_RENDER_NODE_H_
+#endif // _FTS_PHYSICS_RENDER_NODE_H_
