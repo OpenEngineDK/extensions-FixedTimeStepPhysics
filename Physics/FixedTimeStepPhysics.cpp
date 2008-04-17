@@ -47,7 +47,8 @@ void FixedTimeStepPhysics::SetSceneRoot(ISceneNode* root) {
  * @param body Rigid body to add.
  */
 void FixedTimeStepPhysics::AddRigidBody(IRigidBody* body) {
-    rigidList.push_back(body);
+    if (body != NULL)
+        rigidList.push_back(body);
 }
 
 /**
