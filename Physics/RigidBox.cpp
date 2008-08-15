@@ -44,6 +44,8 @@ RigidBox::RigidBox(Box box) : damping(0.05f) {
 
     center = &particle[0];
     offset = Vector<3,float>(0.0f) - *center;
+    gravity = Vector<3,float>(0, -9.8*10, 0);
+
 
     CalculateConstraints();
 
@@ -89,6 +91,15 @@ void RigidBox::SetCenter(Vector<3,float> position) {
     newPosition += offset;
     oldPosition += offset;
 }
+
+Vector<3,float> RigidBox::GetGravity() const {
+    return gravity;
+}
+
+void RigidBox::SetGravity(Vector<3,float> grav) {
+    gravity = grav;
+}
+
 
 /**
  * Set attached transformation node.
@@ -209,7 +220,7 @@ void RigidBox::TimeStep(ISceneNode* root) {
  */
 void RigidBox::AccumulateForces() {
     for (unsigned int i=0; i<NUM_PARTICLES; i++) {
-        accuForce[i]  = addedForce[i] + Vector<3,float>(0,-9.82*10,0);
+        accuForce[i]  = addedForce[i] + gravity; //Vector<3,float>(0,-9.82*10,0);
         addedForce[i] = Vector<3,float>(0.0f);
     }
 }

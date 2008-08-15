@@ -74,6 +74,9 @@ private:
     //!< Added forces for each particle
     Vector<3,float> addedForce[NUM_PARTICLES]; 
 
+    // Gravity
+    Vector<3,float> gravity;
+
     //!< Transformation node to apply modification on.
     TransformationNode* tnode;
 
@@ -103,6 +106,9 @@ public:
 
     Vector<3,float> GetCenter() const;
     void SetCenter(Vector<3,float> position);
+
+    Vector<3,float> GetGravity() const;
+    void SetGravity(Vector<3,float> grav);
 
     TransformationNode* GetTransformationNode();
     void SetTransformationNode(TransformationNode*);
