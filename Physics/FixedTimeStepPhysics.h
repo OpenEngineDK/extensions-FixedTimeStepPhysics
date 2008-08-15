@@ -29,6 +29,7 @@ using OpenEngine::Core::IListener;
 
 using OpenEngine::Math::Vector;
 using OpenEngine::Utils::Timer;
+using OpenEngine::Utils::Time;
 
 using namespace std;
 
@@ -74,11 +75,11 @@ public:
     }
     virtual void Handle(ProcessEventArg arg) {
         // apply the fixed verlet integration
-        unsigned int t = timer.GetElapsedIntervalsAndReset(50);
+        unsigned int t = timer.GetElapsedIntervalsAndReset(50000);
         while (t--) physics.Handle(arg);
 
         // apply interpolation
-        float newp = min(1.0f, (float)timer.GetElapsedTime() / 50);
+        float newp = min(1.0f, (float)timer.GetElapsedTime().AsInt() / 50000);
         list<IRigidBody*> rigidList = physics.GetRigidBodies();
         list<IRigidBody*>::iterator itr;
         for(itr = rigidList.begin(); itr != rigidList.end(); itr++) {
