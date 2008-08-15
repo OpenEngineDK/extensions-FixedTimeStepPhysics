@@ -11,17 +11,25 @@
 #define _FIXED_TIME_STEP_PHYSICS_H_
 
 #include <Core/IModule.h>
+#include <Core/IListener.h>
 #include <Physics/IRigidBody.h>
 #include <Math/Vector.h>
 #include <list>
+#include <math.h>
+#include <Utils/Timer.h>
 
 namespace OpenEngine {
 namespace Physics {
 
 using OpenEngine::Core::IModule;
-using OpenEngine::Math::Vector;
+using OpenEngine::Core::InitializeEventArg;
+using OpenEngine::Core::ProcessEventArg;
+using OpenEngine::Core::DeinitializeEventArg;
+using OpenEngine::Core::IListener;
 
-using namespace OpenEngine::Scene;
+using OpenEngine::Math::Vector;
+using OpenEngine::Utils::Timer;
+
 using namespace std;
 
 /**
@@ -31,25 +39,6 @@ using namespace std;
  */
 class FixedTimeStepPhysics : public IModule {
 private:
-
-    // Private module that interpolates the physic calculations in the
-    // independent engine loop.
-    class PhysicInterpolations : public IModule {
-    private:
-        FixedTimeStepPhysics& pmod;
-    public:
-        PhysicInterpolations(FixedTimeStepPhysics& pmod) : pmod(pmod) {}
-        ~PhysicInterpolations() {}
-        void Process(const float dt, const float p) {
-            list<IRigidBody*>::iterator itr;
-            for(itr = pmod.rigidList.begin(); itr != pmod.rigidList.end(); itr++)
-                (*itr)->ApplyTransformation(p);
-        }
-        void Initialize() {}
-        void Deinitialize() {}
-        bool IsTypeOf(const std::type_info& inf) { return false; }
-    };
-
     //! Paused flag
     bool paused;
 
@@ -59,9 +48,6 @@ private:
     //! @todo Change to more general rigid body container.
     list<IRigidBody*> rigidList;
     
-    //! Interpolation module
-    PhysicInterpolations* imod;
-
 public:
     FixedTimeStepPhysics(ISceneNode* root = NULL);
     ~FixedTimeStepPhysics();
@@ -69,14 +55,36 @@ public:
     void SetSceneRoot(ISceneNode* root);
 
     void AddRigidBody(IRigidBody* body);
+    list<IRigidBody*> GetRigidBodies();
 
-    void Initialize();
-    void Process(const float deltaTime, const float percent);
-    void Deinitialize();
-    bool IsTypeOf(const std::type_info& inf);
+    void Handle(InitializeEventArg arg);
+    void Handle(ProcessEventArg arg);
+    void Handle(DeinitializeEventArg arg);
 
     void TogglePause();
 
+};
+
+class FixedTimeStepPhysicsTimer : public IListener<ProcessEventArg> {
+    Timer timer;
+    FixedTimeStepPhysics& physics;
+public:
+    FixedTimeStepPhysicsTimer(FixedTimeStepPhysics& physics) : physics(physics) {
+        timer.Start();
+    }
+    virtual void Handle(ProcessEventArg arg) {
+        // apply the fixed verlet integration
+        unsigned int t = timer.GetElapsedIntervalsAndReset(50);
+        while (t--) physics.Handle(arg);
+
+        // apply interpolation
+        float newp = min(1.0f, (float)timer.GetElapsedTime() / 50);
+        list<IRigidBody*> rigidList = physics.GetRigidBodies();
+        list<IRigidBody*>::iterator itr;
+        for(itr = rigidList.begin(); itr != rigidList.end(); itr++) {
+            (*itr)->ApplyTransformation(newp);
+        }
+    }
 };
 
 } // NS Physics
