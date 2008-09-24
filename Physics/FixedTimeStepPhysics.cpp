@@ -46,12 +46,12 @@ void FixedTimeStepPhysics::SetSceneRoot(ISceneNode* root) {
  *
  * @param body Rigid body to add.
  */
-void FixedTimeStepPhysics::AddRigidBody(IRigidBody* body) {
+void FixedTimeStepPhysics::AddRigidBody(IOERigidBody* body) {
     if (body != NULL)
         rigidList.push_back(body);
 }
 
-list<IRigidBody*> FixedTimeStepPhysics::GetRigidBodies() {
+list<IOERigidBody*> FixedTimeStepPhysics::GetRigidBodies() {
     return rigidList;
 }
 
@@ -61,7 +61,7 @@ list<IRigidBody*> FixedTimeStepPhysics::GetRigidBodies() {
 void FixedTimeStepPhysics::Handle(InitializeEventArg arg) {
     // Pass the tick time in seconds to all rigid bodies.
     float step = 0.05;
-    list<IRigidBody*>::iterator itr;
+    list<IOERigidBody*>::iterator itr;
     for (itr = rigidList.begin(); itr!=rigidList.end(); itr++)
         (*itr)->SetStepLength(step);
 }
@@ -72,7 +72,7 @@ void FixedTimeStepPhysics::Handle(InitializeEventArg arg) {
  */
 void FixedTimeStepPhysics::Handle(ProcessEventArg arg) {
     if (paused || root == NULL) return;
-    list<IRigidBody*>::iterator itr;
+    list<IOERigidBody*>::iterator itr;
     for (itr = rigidList.begin(); itr!=rigidList.end(); itr++)
         (*itr)->TimeStep(root);
 }

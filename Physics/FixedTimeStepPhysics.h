@@ -12,7 +12,7 @@
 
 #include <Core/IModule.h>
 #include <Core/IListener.h>
-#include <Physics/IRigidBody.h>
+#include <Physics/IOERigidBody.h>
 #include <Math/Vector.h>
 #include <list>
 #include <math.h>
@@ -47,7 +47,7 @@ private:
     ISceneNode* root;
 
     //! @todo Change to more general rigid body container.
-    list<IRigidBody*> rigidList;
+    list<IOERigidBody*> rigidList;
     
 public:
     FixedTimeStepPhysics(ISceneNode* root = NULL);
@@ -55,8 +55,8 @@ public:
 
     void SetSceneRoot(ISceneNode* root);
 
-    void AddRigidBody(IRigidBody* body);
-    list<IRigidBody*> GetRigidBodies();
+    void AddRigidBody(IOERigidBody* body);
+    list<IOERigidBody*> GetRigidBodies();
 
     void Handle(InitializeEventArg arg);
     void Handle(ProcessEventArg arg);
@@ -80,8 +80,8 @@ public:
 
         // apply interpolation
         float newp = min(1.0f, (float)timer.GetElapsedTime().AsInt() / 50000);
-        list<IRigidBody*> rigidList = physics.GetRigidBodies();
-        list<IRigidBody*>::iterator itr;
+        list<IOERigidBody*> rigidList = physics.GetRigidBodies();
+        list<IOERigidBody*>::iterator itr;
         for(itr = rigidList.begin(); itr != rigidList.end(); itr++) {
             (*itr)->ApplyTransformation(newp);
         }

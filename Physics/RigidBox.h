@@ -10,7 +10,7 @@
 #ifndef _RIGID_BOX_H_
 #define _RIGID_BOX_H_
 
-#include <Physics/IRigidBody.h>
+#include <Physics/IOERigidBody.h>
 #include <Physics/LengthConstraint.h>
 #include <Physics/PhysicsRenderNode.h>
 #include <Geometry/FaceSet.h>
@@ -32,7 +32,7 @@ using namespace OpenEngine::Scene;
  *
  * @class RigidBox RigidBox.h "RigidBox.h"
  */
-class RigidBox : public IRigidBody {
+class RigidBox : public IOERigidBody {
 private:
 
     //! box constants

@@ -7,8 +7,8 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _I_RIGID_BODY_H_
-#define _I_RIGID_BODY_H_
+#ifndef _I_OE_RIGID_BODY_H_
+#define _I_OE_RIGID_BODY_H_
 
 #include <Scene/ISceneNode.h>
 
@@ -20,14 +20,14 @@ using namespace OpenEngine::Scene;
 /**
  * Rigid body.
  *
- * @class IRigidBody IRigidBody.h Physics/IRigidBody.h
+ * @class IOERigidBody IOERigidBody.h Physics/IOERigidBody.h
  */
-class IRigidBody {
+class IOERigidBody {
 public:
     
-    IRigidBody() {}
+    IOERigidBody() {}
 
-    virtual ~IRigidBody() {}
+    virtual ~IOERigidBody() {}
 
     /**
      * Set the time step length.
@@ -55,4 +55,4 @@ public:
 } // NS Physics
 } // NS OpenEngine
 
-#endif // _I_RIGID_BODY_H_
+#endif // _I_OE_RIGID_BODY_H_
