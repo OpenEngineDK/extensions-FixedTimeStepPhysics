@@ -11,7 +11,7 @@
 #define _FTS_PHYSICS_RENDER_NODE_H_
 
 #include <Renderers/IRenderer.h>
-#include <Renderers/IRenderNode.h>
+#include <Scene/RenderNode.h>
 #include <Geometry/Line.h>
 #include <Math/Vector.h>
 #include <list>
@@ -22,7 +22,7 @@ using OpenEngine::Geometry::FacePtr;
 using OpenEngine::Math::Vector;
 using OpenEngine::Renderers::IRenderer;
 using OpenEngine::Renderers::IRenderingView;
-using OpenEngine::Renderers::IRenderNode;
+using OpenEngine::Scene::RenderNode;
 
 /**
  * Physics Render node.
@@ -34,7 +34,7 @@ using OpenEngine::Renderers::IRenderNode;
  *
  * @see IGenericNode
  */
-class PhysicsRenderNode : public IRenderNode {
+class PhysicsRenderNode : public RenderNode {
 private:
     /**
      *  Internal representation of faces.

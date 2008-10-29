@@ -335,7 +335,7 @@ void RigidBox::CalculateTransformation() {
  *
  * @return Render node of the box.
  */
-IRenderNode* RigidBox::GetRigidBoxNode() {
+RenderNode* RigidBox::GetRigidBoxNode() {
     return gNode;
 }
 

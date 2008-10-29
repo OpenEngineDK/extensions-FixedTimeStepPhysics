@@ -123,7 +123,7 @@ public:
 
     Matrix<3,3,float> GetRotationMatrix();
 
-    IRenderNode* GetRigidBoxNode();
+    RenderNode* GetRigidBoxNode();
 
 };
 
