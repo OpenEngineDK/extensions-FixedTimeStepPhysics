@@ -17,6 +17,7 @@
 #include <Math/Vector.h>
 #include <Scene/QuadNode.h>
 #include <Scene/BSPNode.h>
+#include <Geometry/Tests.h>
 
 namespace OpenEngine {
 namespace Physics {
@@ -58,7 +59,7 @@ public:
         return faces;
     }
     void VisitQuadNode(QuadNode* node) {
-        if (node->GetBoundingBox().Intersects( Line( *(lc->p1), *(lc->p2) ) ) )
+        if (Tests::Intersects(node->GetBoundingBox(), Line( *(lc->p1), *(lc->p2) ) ) )
             node->VisitSubNodes(*this);
     }
     void VisitBSPNode(BSPNode* node) {
