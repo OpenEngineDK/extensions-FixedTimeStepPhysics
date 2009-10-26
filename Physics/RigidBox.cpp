@@ -124,6 +124,10 @@ TransformationNode* RigidBox::GetTransformationNode() {
     return tnode;
 }
 
+Vector<3,float> RigidBox::GetSpeed() {
+    return speed;
+}
+
 /**
  * Get the last computed rotation matrix.
  *
@@ -210,6 +214,7 @@ void RigidBox::TimeStep(ISceneNode* root) {
     Verlet();
     SatisfyConstraints();
     CalculateTransformation();
+    speed = particle[0] - oldParticle[0];
 }
 
 

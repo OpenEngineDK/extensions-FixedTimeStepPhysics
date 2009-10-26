@@ -77,6 +77,9 @@ private:
     // Gravity
     Vector<3,float> gravity;
 
+    // Speed
+    Vector<3,float> speed;
+
     //!< Transformation node to apply modification on.
     TransformationNode* tnode;
 
@@ -109,6 +112,8 @@ public:
 
     Vector<3,float> GetGravity() const;
     void SetGravity(Vector<3,float> grav);
+
+    Vector<3,float> GetSpeed();
 
     TransformationNode* GetTransformationNode();
     void SetTransformationNode(TransformationNode*);
