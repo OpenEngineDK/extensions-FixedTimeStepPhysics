@@ -12,6 +12,7 @@
 
 #include <Renderers/IRenderer.h>
 #include <Scene/RenderNode.h>
+#include <Scene/ISceneNodeVisitor.h>
 #include <Geometry/Line.h>
 #include <Math/Vector.h>
 #include <list>
@@ -21,7 +22,10 @@ using OpenEngine::Geometry::Line;
 using OpenEngine::Geometry::FacePtr;
 using OpenEngine::Math::Vector;
 using OpenEngine::Renderers::IRenderer;
-using OpenEngine::Renderers::IRenderingView;
+using OpenEngine::Renderers::RenderingEventArg;
+using OpenEngine::Scene::ISceneNodeVisitor;
+
+//using OpenEngine::Renderers::IRenderingView;
 using OpenEngine::Scene::RenderNode;
 
 /**
@@ -73,33 +77,33 @@ private:
     /**
      *  Draw faces.
      */
-    void ApplyFaces(IRenderer* renderer) {
+    void ApplyFaces(IRenderer& renderer) {
         std::list<GFace>::iterator faceItr = faces.begin();
         for (; faceItr != faces.end(); faceItr++) {
             GFace gface = *faceItr;
-            renderer->DrawFace(gface.face, gface.color, gface.width);
+            renderer.DrawFace(gface.face, gface.color, gface.width);
         }
     }
 
     /**
      *  Draw lines.
      */
-    void ApplyLines(IRenderer* renderer) {
+    void ApplyLines(IRenderer& renderer) {
         std::list<GLine>::iterator lineItr = lines.begin();
         for (; lineItr != lines.end(); lineItr++) {
             GLine gline = *lineItr;
-            renderer->DrawLine(gline.line,gline.color,gline.width);
+            renderer.DrawLine(gline.line,gline.color,gline.width);
         }
     }
 
     /**
      *  Draw points.
      */
-    void ApplyPoints(IRenderer* renderer) {
+    void ApplyPoints(IRenderer& renderer) {
         std::list<GPoint>::iterator pointItr = points.begin();
         for (; pointItr != points.end(); pointItr++) {
             GPoint gpoint = *pointItr;
-            renderer->DrawPoint(gpoint.point,gpoint.color,gpoint.size);
+            renderer.DrawPoint(gpoint.point,gpoint.color,gpoint.size);
         }
     }
 
@@ -107,8 +111,8 @@ public:
     /**
      * Draw the geometry, this is called by the renderer
      */
-    virtual void Apply(IRenderingView* renderingView) {
-        IRenderer* renderer = renderingView->GetRenderer();
+    virtual void Apply(RenderingEventArg arg, ISceneNodeVisitor& v) {
+        IRenderer& renderer = arg.renderer;
         ApplyFaces(renderer);
         ApplyLines(renderer);
         ApplyPoints(renderer);
